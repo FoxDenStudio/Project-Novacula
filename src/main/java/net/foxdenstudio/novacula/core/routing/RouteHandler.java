@@ -22,15 +22,62 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core;
+package net.foxdenstudio.novacula.core.routing;
+
+import net.foxdenstudio.novacula.core.utils.NovaLogger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
-public class MainClass {
+public class RouteHandler {
+    private static ArrayList<Route> routeArrayList;
+
+    public RouteHandler(NovaLogger novaLogger, Route... presetRoutes) {
+        routeArrayList = new ArrayList<>(Arrays.asList(presetRoutes));
+    }
+
+    public void addRoute(Route route) {
+        routeArrayList.add(route);
+    }
+
+    public void addRouteAtPosition(int index, Route route) {
+        routeArrayList.add(index, route);
+    }
+
+    public void removeRoute(Route route) {
+        routeArrayList.remove(route);
+    }
+
+    public static Route getRouteByPath(String path) {
+        return getRouteByPath(new Path(path));
+    }
+
+    public static Route getRouteByPath(Path path) {
+        for (Route route : routeArrayList) {
+            System.out.println(route.getPath().getPathAsText() + " :: " + path.getPathAsText());
+            if (route.getPath().equals(path)) {
+                System.out.println("good");
+                return route;
+            }
+        }
+
+        return null;
+    }
 
 
-    public static void main(String[] args) {
-        new Core();
+    public static String getRoute(String path) {
+        System.out.println(path);
+        Route tRoute = getRouteByPath(path);
+        System.out.println(tRoute == null ? "NULL":"NOTNULL "+tRoute.getPath());
+        return "";//tRoute.getPath().getPathAsText();
+    }
+
+    public static void outputAllRoutes() {
+        for(Route route : routeArrayList){
+            System.out.println(route.getPath().getPathAsText());
+        }
     }
 }

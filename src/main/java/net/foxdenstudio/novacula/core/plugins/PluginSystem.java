@@ -22,15 +22,14 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core;
+package net.foxdenstudio.novacula.core.plugins;
+
+import net.foxdenstudio.novacula.core.utils.NovaLogger;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
-public class MainClass {
-
-
-    public static void main(String[] args) {
-        new Core();
+public class PluginSystem {
+    public PluginSystem(NovaLogger novaLogger) {
     }
 }

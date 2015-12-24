@@ -22,15 +22,40 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core;
+package net.foxdenstudio.novacula.core.routing;
+
+import net.foxdenstudio.novacula.core.StartupArgs;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
-public class MainClass {
+public class Path {
 
+    private String path = "";
 
-    public static void main(String[] args) {
-        new Core();
+    public Path(String path) {
+        this.path = path;
     }
-}
+
+    public String getPathAsText() {
+        return path;
+    }
+
+    public void setPathFromText(String path) {
+        this.path = path;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (StartupArgs.CASE_SENSITIVE_PATHS) {
+            if (path.equals(((Path) obj).getPathAsText())) {
+                return true;
+            }
+        } else {
+            if (path.equalsIgnoreCase(((Path) obj).getPathAsText())) {
+                return true;
+            }
+        }
+        return false;
+    }}
