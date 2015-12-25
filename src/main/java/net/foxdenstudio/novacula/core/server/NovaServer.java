@@ -79,7 +79,7 @@ public class NovaServer {
                     throw new RuntimeException("Error accepting client connection", e);
                 }
                 new Thread(
-                        new ClientConnectionThread(clientSocket, "Multithreaded Server")
+                        new ClientConnectionThread(novaLogger, clientSocket, "Multithreaded Server")
                 ).start();
             }
         }

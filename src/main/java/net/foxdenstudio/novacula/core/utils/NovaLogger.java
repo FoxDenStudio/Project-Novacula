@@ -24,6 +24,8 @@
 
 package net.foxdenstudio.novacula.core.utils;
 
+import com.google.common.reflect.ClassPath;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -89,9 +91,9 @@ public class NovaLogger {
         return suffix;
     }
 
-    public void log(String message) {
+    public void log(Object message) {
         if (message != null) {
-            String msg = "[" + sdf.format(this.time.getTime()) + "] " + prefix + message + suffix + cleanupCode;
+            String msg = "[" + sdf.format(this.time.getTime()) + "] " + prefix + message.toString() + suffix + cleanupCode;
             log.add(msg);
             System.out.println(msg);
         }
@@ -135,4 +137,5 @@ public class NovaLogger {
     public String getLog() {
         return log.toString();
     }
+
 }

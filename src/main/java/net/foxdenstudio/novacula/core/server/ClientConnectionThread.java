@@ -26,6 +26,7 @@ package net.foxdenstudio.novacula.core.server;
 
 import net.foxdenstudio.novacula.core.StartupArgs;
 import net.foxdenstudio.novacula.core.utils.HTTPHeaderParser;
+import net.foxdenstudio.novacula.core.utils.NovaLogger;
 
 import java.io.*;
 import java.net.Socket;
@@ -40,10 +41,12 @@ public class ClientConnectionThread implements Runnable {
     private final String serverName;
     private final int nbRead;
     private final byte[] buffer;
+    private final NovaLogger novaLogger;
 
     private String fileMimeType = "text/html";
 
-    public ClientConnectionThread(Socket clientSocket, String serverName) {
+    public ClientConnectionThread(NovaLogger novaLogger, Socket clientSocket, String serverName) {
+        this.novaLogger = novaLogger;
         nbRead = 0;
         buffer = new byte[1024];
 
@@ -57,18 +60,18 @@ public class ClientConnectionThread implements Runnable {
             long time = System.currentTimeMillis();
 
             HTTPHeaderParser headerParser = new HTTPHeaderParser(inputStream);
-            System.out.println("P1: " + headerParser.parseRequest());
-            System.out.println("P2: " + headerParser.getVersion());
-            System.out.println("P3: " + headerParser.getRequestURL());
-            System.out.println("P4: " + headerParser.getMethod());
-            System.out.println("P5: " + headerParser.getParams());
-            System.out.println("P6: " + headerParser.getHeaders());
+            novaLogger.log("P1: " + headerParser.parseRequest());
+            novaLogger.log("P2: " + headerParser.getVersion());
+            novaLogger.log("P3: " + headerParser.getRequestURL());
+            novaLogger.log("P4: " + headerParser.getMethod());
+            novaLogger.log("P5: " + headerParser.getParams());
+            novaLogger.log("P6: " + headerParser.getHeaders());
 
 //            QuickAccess.Success200(outputStream, fileMimeType);
             QuickAccess.Error404(outputStream, serverName);
 
             outputStream.flush();
-            System.out.println("Request processed in: " + (System.currentTimeMillis() - time));
+            novaLogger.log("Request processed in: " + (System.currentTimeMillis() - time));
         } catch (IOException e) {
             e.printStackTrace();
         }
