@@ -22,20 +22,20 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core;
+package net.foxdenstudio.novacula.core.server;
 
-import java.io.File;
+import net.foxdenstudio.novacula.core.StartupArgs;
 
 /**
- * Created by d4rkfly3r (Joshua F.) on 12/23/15.
+ * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class StartupArgs {
-    public static final int BASE_SERVER_PORT = 8004;
-    public static final String BASE_DIR = System.getProperty("user.home", "") + File.separator + ".ProjectNovaculaData";
-    public static final boolean LOAD_PLUGINS = true;
-    public static final boolean CASE_SENSITIVE_PATHS = false;
-    public static final String SERVER_NAME = "ProjectNovaculaTest";
-    public static final String SERVER_BASE_DIR = BASE_DIR + File.separator + "ServerData";
-    public static final String MAILTO = "npjoshf@gmail.com";
-    public static final String PHP_EXTENSIONS = "php;php5;phtml;nova";
+public class PHPHandler {
+
+    public static boolean isPHPFile(String filename) {
+        int extPos = filename.lastIndexOf('.');
+        for (String allowedPHPExt : StartupArgs.PHP_EXTENSIONS.split(";")) {
+            if (filename.substring(extPos + 1).equalsIgnoreCase(allowedPHPExt)) return true;
+        }
+        return false;
+    }
 }
