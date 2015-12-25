@@ -24,8 +24,6 @@
 
 package net.foxdenstudio.novacula.core.utils;
 
-import com.google.common.reflect.ClassPath;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -102,7 +100,7 @@ public class NovaLogger {
         this.time = Calendar.getInstance();
         if (message != null) {
             String msg = "[" + sdf.format(this.time.getTime()) + "] " + prefix + message.toString() + suffix + cleanupCode;
-            log.add(msg);
+            log.add(msg.replaceAll("(\\[[0-99]+m)", "") + "\n");
             System.out.println(msg);
         }
     }
@@ -111,7 +109,7 @@ public class NovaLogger {
         this.time = Calendar.getInstance();
         if (message != null) {
             String msg = message + cleanupCode;
-            log.add(msg);
+            log.add(msg.replaceAll("(\\[[0-99]+m)", "") + "\n");
             System.out.println(msg);
         }
     }
@@ -120,20 +118,20 @@ public class NovaLogger {
         this.time = Calendar.getInstance();
         if (message != null) {
             String msg = "[" + sdf.format(this.time.getTime()) + "] " + ERROR + message + ERROR_SUFFIX + cleanupCode;
-            log.add(msg);
+            log.add(msg.replaceAll("(\\[[0-99]+m)", "") + "\n");
             System.out.println(ANSI_RED + msg);
         }
     }
 
     public void logClear() {
-        log.add(CLEAR_LOG);
+        log.add(CLEAR_LOG.replaceAll("(\\[[0-99]+m)", "") + "\n");
         for (int i = 1; i < 50; i++)
             System.out.print("\n");
         System.out.println(CLEAR_LOG);
     }
 
     public void logClear(int lines) {
-        log.add(CLEAR_LOG);
+        log.add(CLEAR_LOG.replaceAll("(\\[[0-99]+m)", "") + "\n");
         for (int i = 1; i < lines; i++)
             System.out.print("\n");
         System.out.println(CLEAR_LOG);
@@ -142,8 +140,11 @@ public class NovaLogger {
     public boolean saveLog() {
         this.time = Calendar.getInstance();
         File rootLogDir = new File("logs");
-        //noinspection ResultOfMethodCallIgnored
-        rootLogDir.mkdirs();
+
+        if (!rootLogDir.exists())
+            //noinspection ResultOfMethodCallIgnored
+            rootLogDir.mkdirs();
+
         File logFile = new File(rootLogDir, logSDF.format(this.time.getTime()) + ".noval");
         try (FileOutputStream fos = new FileOutputStream(logFile); OutputStreamWriter osw = new OutputStreamWriter(fos)) {
 
