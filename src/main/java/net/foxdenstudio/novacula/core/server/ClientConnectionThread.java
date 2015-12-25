@@ -25,6 +25,8 @@
 package net.foxdenstudio.novacula.core.server;
 
 import net.foxdenstudio.novacula.core.StartupArgs;
+import net.foxdenstudio.novacula.core.plugins.PluginSystem;
+import net.foxdenstudio.novacula.core.plugins.events.ServerRequestEvent;
 import net.foxdenstudio.novacula.core.utils.HTTPHeaderParser;
 import net.foxdenstudio.novacula.core.utils.NovaLogger;
 
@@ -52,7 +54,10 @@ class ClientConnectionThread implements Runnable {
 
     @Override
     public void run() {
-        try (OutputStream outputStream = socket.getOutputStream(); InputStream inputStream = socket.getInputStream()) {
+        try {
+            OutputStream outputStream = socket.getOutputStream();
+            InputStream inputStream = socket.getInputStream();
+
             long time = System.currentTimeMillis();
 
             HTTPHeaderParser headerParser = new HTTPHeaderParser(inputStream);
@@ -64,9 +69,10 @@ class ClientConnectionThread implements Runnable {
             novaLogger.log("P6: " + headerParser.getHeaders());
 
 //            QuickAccess.Success200(outputStream, fileMimeType);
-            QuickAccess.Error404(outputStream, serverName);
+//            QuickAccess.Error404(outputStream, serverName);
 
-            outputStream.flush();
+            PluginSystem.callEvent(new ServerRequestEvent(outputStream, headerParser));
+
             novaLogger.log("Request processed in: " + (System.currentTimeMillis() - time));
         } catch (IOException e) {
             e.printStackTrace();

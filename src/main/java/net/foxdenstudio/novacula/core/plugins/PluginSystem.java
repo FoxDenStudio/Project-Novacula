@@ -78,7 +78,7 @@ public class PluginSystem {
         callEvent(new LaunchEvent());
     }
 
-    public synchronized static void callEvent(final Event event) {
+    public static void callEvent(final Event event) {
         System.out.println("Calling Event");
         new Thread() {
             @Override
@@ -89,7 +89,7 @@ public class PluginSystem {
         }.start();
     }
 
-    private synchronized void register0(Class<?> aClass) {
+    private void register0(Class<?> aClass) {
         synchronized (registeredListeners) {
             if (!registeredListeners.contains(aClass)) {
                 registeredListeners.add(aClass);
@@ -98,17 +98,17 @@ public class PluginSystem {
         }
     }
 
-    private static synchronized void callEventSpecClass0(Class<?> aClass, final Event event) {
+    private static void callEventSpecClass0(Class<?> aClass, final Event event) {
         callMethodsForClass0(aClass, event);
     }
 
-    private static synchronized void callEvent0(final Event event) {
+    private static void callEvent0(final Event event) {
         synchronized (registeredListeners) {
             registeredListeners.parallelStream().forEach(clz -> callMethodsForClass0(clz, event));
         }
     }
 
-    private static synchronized void callMethodsForClass0(Class<?> clz, final Event event) {
+    private static void callMethodsForClass0(Class<?> clz, final Event event) {
         Arrays.asList(clz.getMethods()).parallelStream().forEach(method -> {
             if (method.isAnnotationPresent(EventHandler.class)) {
                 Class<?>[] expParams = method.getParameterTypes();

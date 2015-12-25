@@ -24,12 +24,49 @@
 
 package net.foxdenstudio.novacula.core.plugins.events;
 
+import net.foxdenstudio.novacula.core.utils.HTTPHeaderParser;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
 public class ServerRequestEvent implements Event {
+
+    private final OutputStream clientOutputStream;
+    private final HTTPHeaderParser httpHeaderParser;
+    private boolean handled = false;
+
+    public ServerRequestEvent(OutputStream clientOutputStream, HTTPHeaderParser httpHeaderParser) {
+        this.clientOutputStream = clientOutputStream;
+        this.httpHeaderParser = httpHeaderParser;
+    }
+
     @Override
     public String getName() {
         return "Server Request Event";
+    }
+
+    public OutputStream getClientOutputStream() {
+        return clientOutputStream;
+    }
+
+    public HTTPHeaderParser getHttpHeaderParser() {
+        return httpHeaderParser;
+    }
+
+    public boolean isHandled() {
+        return handled;
+    }
+
+    public void handle() {
+        this.handled = true;
+        try {
+            clientOutputStream.flush();
+            clientOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
