@@ -22,26 +22,14 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins.events;
+package net.foxdenstudio.novacula.anno.requests;
 
-import java.util.Set;
+import net.foxdenstudio.novacula.core.utils.HTTPHeaderParser;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class LoadEvent implements Event {
-    private final Set<Class<?>> registeredListeners;
+public interface IWebServiceRequest {
 
-    public LoadEvent(Set<Class<?>> registeredListeners) {
-        this.registeredListeners = registeredListeners;
-    }
-
-    public Set<Class<?>> getRegisteredListeners() {
-        return registeredListeners;
-    }
-
-    @Override
-    public String getName() {
-        return "Load Event";
-    }
+    HTTPHeaderParser httpHeaders();
 }

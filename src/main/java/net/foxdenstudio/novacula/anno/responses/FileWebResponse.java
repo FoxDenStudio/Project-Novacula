@@ -22,26 +22,59 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins.events;
+package net.foxdenstudio.novacula.anno.responses;
 
-import java.util.Set;
+import com.google.common.io.ByteStreams;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class LoadEvent implements Event {
-    private final Set<Class<?>> registeredListeners;
+public class FileWebResponse implements IWebServiceResponse {
 
-    public LoadEvent(Set<Class<?>> registeredListeners) {
-        this.registeredListeners = registeredListeners;
+    private byte[] byteData = new byte[1024];
+    private String mimeType;
+
+    public FileWebResponse(File page) throws IOException {
+        try (FileInputStream fileInputStream = new FileInputStream(page)) {
+            byteData = new byte[(int) page.length()];
+
+            //noinspection ResultOfMethodCallIgnored
+            fileInputStream.read(byteData);
+        }
+        mimeType = "text/html";
     }
 
-    public Set<Class<?>> getRegisteredListeners() {
-        return registeredListeners;
+    public FileWebResponse(InputStream resource) {
+        try {
+            byteData = ByteStreams.toByteArray(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            resource.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * @return A string like plain/text that is the content type.  Is retrieved automatically based on file extension.
+     */
     @Override
-    public String getName() {
-        return "Load Event";
+    public String mimeType() {
+        return mimeType;
+    }
+
+    /**
+     * @return A byte array that will be written out to the clients stream. In the case, the file data.
+     */
+    @Override
+    public byte[] getByteData() {
+        return byteData;
     }
 }

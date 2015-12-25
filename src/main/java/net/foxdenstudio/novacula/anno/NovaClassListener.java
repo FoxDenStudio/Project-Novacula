@@ -22,20 +22,19 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.test;
+package net.foxdenstudio.novacula.anno;
 
-import net.foxdenstudio.novacula.core.plugins.EventHandler;
-import net.foxdenstudio.novacula.core.plugins.events.LoadEvent;
-import net.foxdenstudio.novacula.core.plugins.NovaPlugin;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Created by d4rkfly3r (Joshua F.) on 12/23/15.
+ * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-@NovaPlugin(name = "Second Plugin", uniqueID = "second_plugin")
-public class SecondTestPlugin {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface NovaClassListener {
 
-    @EventHandler
-    public void onDoabkle(LoadEvent event) {
-        System.out.println("EVENT: " + event.getName() + " :: " + event.getRegisteredListeners());
-    }
+    String name();
 }

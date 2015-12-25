@@ -34,14 +34,14 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
 public class PluginSystem {
 
-    private static final List<Class<?>> registeredListeners = new ArrayList<>();
+    private static final HashMap<Class<?>, Object> registeredListeners = new HashMap<>();
     private static NovaLogger novaLogger;
 
     public PluginSystem(NovaLogger novaLogger) {
@@ -78,37 +78,44 @@ public class PluginSystem {
         callEvent(new LaunchEvent());
     }
 
+    public synchronized static HashMap<Class<?>, Object> getRegisteredListeners() {
+        return registeredListeners;
+    }
+
     public static void callEvent(final Event event) {
-        System.out.println("Calling Event");
         new Thread() {
             @Override
             public void run() {
                 callEvent0(event);
-                System.out.println("Event called from thread;");
             }
         }.start();
     }
 
     private void register0(Class<?> aClass) {
         synchronized (registeredListeners) {
-            if (!registeredListeners.contains(aClass)) {
-                registeredListeners.add(aClass);
-                callEventSpecClass0(aClass, new LoadEvent(registeredListeners));
+            if (!registeredListeners.containsKey(aClass)) {
+                try {
+                    Object instance = aClass.newInstance();
+                    registeredListeners.put(aClass, instance);
+                    callEventSpecClass0(aClass, instance, new LoadEvent(registeredListeners.keySet()));
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    private static void callEventSpecClass0(Class<?> aClass, final Event event) {
-        callMethodsForClass0(aClass, event);
+    private static void callEventSpecClass0(Class<?> aClass, Object instance, final Event event) {
+        callMethodsForClass0(aClass, instance, event);
     }
 
     private static void callEvent0(final Event event) {
         synchronized (registeredListeners) {
-            registeredListeners.parallelStream().forEach(clz -> callMethodsForClass0(clz, event));
+            registeredListeners.entrySet().parallelStream().forEach(clzEntry -> callMethodsForClass0(clzEntry.getKey(), clzEntry.getValue(), event));
         }
     }
 
-    private static void callMethodsForClass0(Class<?> clz, final Event event) {
+    private static void callMethodsForClass0(Class<?> clz, Object instance, final Event event) {
         Arrays.asList(clz.getMethods()).parallelStream().forEach(method -> {
             if (method.isAnnotationPresent(EventHandler.class)) {
                 Class<?>[] expParams = method.getParameterTypes();
@@ -117,9 +124,7 @@ public class PluginSystem {
 
                     if (event.getClass().equals(expEvent)) {
                         try {
-                            Object ins = clz.newInstance();
-                            method.invoke(ins, event);
-                            ins = null;
+                            method.invoke(instance, event);
                         } catch (Exception ex) {
                             novaLogger.logError(ex.getMessage());
                         }

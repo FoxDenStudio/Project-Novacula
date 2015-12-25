@@ -1,18 +1,18 @@
 /**************************************************************************************************
  * The MIT License (MIT)                                                                          *
- * *
+ *                                                                                                *
  * Copyright (c) 2015. FoxDenStudio                                                               *
- * *
+ *                                                                                                *
  * Permission is hereby granted, free of charge, to any person obtaining a copy                   *
  * of this software and associated documentation files (the "Software"), to deal                  *
  * in the Software without restriction, including without limitation the rights                   *
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell                      *
  * copies of the Software, and to permit persons to whom the Software is                          *
  * furnished to do so, subject to the following conditions:                                       *
- * *
+ *                                                                                                *
  * The above copyright notice and this permission notice shall be included in all                 *
  * copies or substantial portions of the Software.                                                *
- * *
+ *                                                                                                *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR                     *
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,                       *
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE                    *
@@ -22,26 +22,22 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins.events;
-
-import java.util.Set;
+package net.foxdenstudio.novacula.anno.responses;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class LoadEvent implements Event {
-    private final Set<Class<?>> registeredListeners;
+public interface IWebServiceResponse {
 
-    public LoadEvent(Set<Class<?>> registeredListeners) {
-        this.registeredListeners = registeredListeners;
-    }
+    /**
+     * @return A byte array that will be written out to the clients stream.
+     */
+    byte[] getByteData();
 
-    public Set<Class<?>> getRegisteredListeners() {
-        return registeredListeners;
-    }
-
-    @Override
-    public String getName() {
-        return "Load Event";
+    /**
+     * @return A string like plain/text that is the content type.  If the plugin is a dependency, you can use the Mimes.getMime(".{fileExt}")
+     */
+    default String mimeType() {
+        return "text/html";
     }
 }

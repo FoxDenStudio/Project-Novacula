@@ -22,26 +22,38 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins.events;
+package net.foxdenstudio.novacula.anno.responses;
 
-import java.util.Set;
+import java.net.URL;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class LoadEvent implements Event {
-    private final Set<Class<?>> registeredListeners;
+@SuppressWarnings("SameParameterValue")
+public class RedirectWebResponse implements IWebServiceResponse {
 
-    public LoadEvent(Set<Class<?>> registeredListeners) {
-        this.registeredListeners = registeredListeners;
+
+    private final String data;
+
+    public RedirectWebResponse(URL passTarget) {
+        this(passTarget, 3);
     }
 
-    public Set<Class<?>> getRegisteredListeners() {
-        return registeredListeners;
+    @SuppressWarnings("WeakerAccess")
+    public RedirectWebResponse(URL passTarget, Integer redirectTime) {
+        this(passTarget, redirectTime, "");
     }
 
+    @SuppressWarnings("WeakerAccess")
+    public RedirectWebResponse(URL passTarget, Integer redirectTime, String customMessage) {
+        data = "<head><meta http-equiv='refresh' content='" + redirectTime + "; url=" + passTarget.toExternalForm() + "'></head><body><h2>Redirect</h2>You will be redirected to " + passTarget.toExternalForm() + " in 3 seconds.<br />If the page does not automatically reload, please click <a href='" + passTarget.toExternalForm() + "'>HERE</a>.<br /><br />" + customMessage + "</body>";
+    }
+
+    /**
+     * @return A byte array created from a redirect request that is passed on to the client.
+     */
     @Override
-    public String getName() {
-        return "Load Event";
+    public byte[] getByteData() {
+        return data.getBytes();
     }
 }
