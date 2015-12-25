@@ -33,9 +33,9 @@ import net.foxdenstudio.novacula.anno.NovaMethodListener;
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
 @NovaClassListener(name = "test")
-public class TestPlugin {
+public class TestWebPageHandler {
 
-    public TestPlugin() {
+    public TestWebPageHandler() {
         System.out.println("Creating...");
     }
 
