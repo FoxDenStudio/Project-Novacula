@@ -92,7 +92,9 @@ public class PluginSystem {
     }
 
     private void register0(Class<?> aClass) {
+        novaLogger.log("In Register0");
         synchronized (registeredListeners) {
+            novaLogger.log("Syncd List");
             if (!registeredListeners.containsKey(aClass)) {
                 try {
                     Object instance = aClass.newInstance();
@@ -126,7 +128,7 @@ public class PluginSystem {
                         try {
                             method.invoke(instance, event);
                         } catch (Exception ex) {
-                            novaLogger.logError(ex.getMessage());
+                            novaLogger.logError("ERROR: " + ex.getMessage());
                         }
                     }
                 }

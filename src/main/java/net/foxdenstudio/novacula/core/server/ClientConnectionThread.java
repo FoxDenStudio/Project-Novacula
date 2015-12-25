@@ -62,6 +62,7 @@ class ClientConnectionThread implements Runnable {
             long time = System.currentTimeMillis();
 
             HTTPHeaderParser headerParser = new HTTPHeaderParser(inputStream);
+            headerParser.parseRequest();
 
             PluginSystem.callEvent(new ServerRequestEvent(outputStream, headerParser));
 
