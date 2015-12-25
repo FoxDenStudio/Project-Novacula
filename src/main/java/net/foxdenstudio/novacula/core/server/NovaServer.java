@@ -25,6 +25,8 @@
 package net.foxdenstudio.novacula.core.server;
 
 import net.foxdenstudio.novacula.core.StartupArgs;
+import net.foxdenstudio.novacula.core.plugins.PluginSystem;
+import net.foxdenstudio.novacula.core.plugins.events.*;
 import net.foxdenstudio.novacula.core.utils.NovaInfo;
 import net.foxdenstudio.novacula.core.utils.NovaLogger;
 
@@ -48,6 +50,8 @@ public class NovaServer {
     }
 
     public synchronized void start() {
+        PluginSystem.callEvent(new ServerPreInitializationEvent());
+        long time = System.currentTimeMillis();
         synchronized (this) {
             this.runningThread = Thread.currentThread();
         }
@@ -67,10 +71,12 @@ public class NovaServer {
         }
 
         if (serverSocket != null) {
+            PluginSystem.callEvent(new ServerPostInitializationEvent(System.currentTimeMillis() - time));
             while (isRunning()) {
                 Socket clientSocket;
                 try {
                     clientSocket = this.serverSocket.accept();
+                    PluginSystem.callEvent(new ClientConnectingEvent());
                 } catch (IOException e) {
                     if (isRunning()) {
                         System.out.println("Server Stopped.");
@@ -81,17 +87,20 @@ public class NovaServer {
                 new Thread(
                         new ClientConnectionThread(novaLogger, clientSocket, StartupArgs.SERVER_NAME)
                 ).start();
+                PluginSystem.callEvent(new ClientConnectedEvent());
             }
         }
     }
 
     public synchronized void stop() {
+        PluginSystem.callEvent(new ServerHaltingEvent());
         this.running = false;
         try {
             this.serverSocket.close();
         } catch (IOException e) {
             throw new RuntimeException("Error closing server", e);
         }
+        PluginSystem.callEvent(new ServerHaltedEvent());
     }
 
     public boolean isRunning() {

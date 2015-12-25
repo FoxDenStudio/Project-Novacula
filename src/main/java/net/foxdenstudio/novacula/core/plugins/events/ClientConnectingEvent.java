@@ -27,20 +27,9 @@ package net.foxdenstudio.novacula.core.plugins.events;
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class ServerPostInitializationEvent implements Event {
-
-    private final long serverStartTime;
-
-    public ServerPostInitializationEvent(long serverStartTime) {
-        this.serverStartTime = serverStartTime;
-    }
-
+public class ClientConnectingEvent implements Event {
     @Override
     public String getName() {
-        return "Server Post-Initialization Event";
-    }
-
-    public long getServerStartTime() {
-        return serverStartTime;
+        return "Client Connecting Event";
     }
 }
