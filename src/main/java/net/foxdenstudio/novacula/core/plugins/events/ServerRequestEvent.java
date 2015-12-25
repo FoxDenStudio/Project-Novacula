@@ -22,26 +22,14 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins;
-
-import java.util.List;
+package net.foxdenstudio.novacula.core.plugins.events;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class LoadEvent implements Event {
-    private final List<Class<?>> registeredListeners;
-
-    public LoadEvent(List<Class<?>> registeredListeners) {
-        this.registeredListeners = registeredListeners;
-    }
-
-    public List<Class<?>> getRegisteredListeners() {
-        return registeredListeners;
-    }
-
+public class ServerRequestEvent implements Event {
     @Override
     public String getName() {
-        return "Load Event";
+        return "Server Request Event";
     }
 }

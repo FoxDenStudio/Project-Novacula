@@ -25,7 +25,7 @@
 package net.foxdenstudio.novacula.test;
 
 import net.foxdenstudio.novacula.core.plugins.EventHandler;
-import net.foxdenstudio.novacula.core.plugins.LoadEvent;
+import net.foxdenstudio.novacula.core.plugins.events.LoadEvent;
 import net.foxdenstudio.novacula.core.plugins.NovaPlugin;
 
 /**

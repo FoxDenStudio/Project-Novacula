@@ -22,20 +22,28 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.test;
+package net.foxdenstudio.novacula.core.plugins.events;
 
-import net.foxdenstudio.novacula.core.plugins.EventHandler;
-import net.foxdenstudio.novacula.core.plugins.events.LoadEvent;
-import net.foxdenstudio.novacula.core.plugins.NovaPlugin;
+import net.foxdenstudio.novacula.core.plugins.events.Event;
+
+import java.util.List;
 
 /**
- * Created by d4rkfly3r (Joshua F.) on 12/23/15.
+ * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-@NovaPlugin(name = "Second Plugin", uniqueID = "second_plugin")
-public class SecondTestPlugin {
+public class LoadEvent implements Event {
+    private final List<Class<?>> registeredListeners;
 
-    @EventHandler
-    public void onDoabkle(LoadEvent event) {
-        System.out.println("EVENT: " + event.getName() + " :: " + event.getRegisteredListeners());
+    public LoadEvent(List<Class<?>> registeredListeners) {
+        this.registeredListeners = registeredListeners;
+    }
+
+    public List<Class<?>> getRegisteredListeners() {
+        return registeredListeners;
+    }
+
+    @Override
+    public String getName() {
+        return "Load Event";
     }
 }

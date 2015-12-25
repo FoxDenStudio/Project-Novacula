@@ -22,11 +22,14 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins;
+package net.foxdenstudio.novacula.core.plugins.events;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public interface Event {
-    String getName();
+public class ServerHaltingEvent implements Event {
+    @Override
+    public String getName() {
+        return "Server Halting Event";
+    }
 }

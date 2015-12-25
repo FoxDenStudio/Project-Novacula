@@ -22,14 +22,14 @@
  * SOFTWARE.                                                                                      *
  **************************************************************************************************/
 
-package net.foxdenstudio.novacula.core.plugins;
+package net.foxdenstudio.novacula.core.plugins.events;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public class LaunchEvent implements Event {
+public class ServerPreInitializationEvent implements Event {
     @Override
     public String getName() {
-        return "This is a launch!";
+        return "Server Pre-Initialization Event";
     }
 }

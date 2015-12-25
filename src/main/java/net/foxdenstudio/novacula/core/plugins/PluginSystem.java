@@ -25,6 +25,9 @@
 package net.foxdenstudio.novacula.core.plugins;
 
 import net.foxdenstudio.novacula.core.plugins.detector.ADetect;
+import net.foxdenstudio.novacula.core.plugins.events.Event;
+import net.foxdenstudio.novacula.core.plugins.events.LaunchEvent;
+import net.foxdenstudio.novacula.core.plugins.events.LoadEvent;
 import net.foxdenstudio.novacula.core.utils.NovaLogger;
 
 import java.io.IOException;
