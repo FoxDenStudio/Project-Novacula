@@ -53,8 +53,7 @@ final class ClassFileIterator {
      * defined package names are returned.
      * NOTE: package names must be defined in the native format (using '/' instead of '.').
      */
-    ClassFileIterator(final File[] filesOrDirectories, final String[] pkgNameFilter)
-            throws IOException {
+    ClassFileIterator(final File[] filesOrDirectories, final String[] pkgNameFilter) {
 
         this.fileIterator = new FileIterator(filesOrDirectories);
         this.pkgNameFilter = pkgNameFilter;
@@ -134,6 +133,7 @@ final class ClassFileIterator {
         return files;
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static boolean endsWithIgnoreCase(final String value, final String suffix) {
         final int n = suffix.length();
         return value.regionMatches(true, value.length() - n, suffix, 0, n);

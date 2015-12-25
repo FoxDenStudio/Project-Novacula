@@ -58,6 +58,7 @@ public class PluginSystem {
 
             @Override
             public Class<? extends Annotation>[] annotations() {
+                //noinspection unchecked
                 return new Class[]{NovaPlugin.class};
             }
         };

@@ -36,12 +36,10 @@ import net.foxdenstudio.novacula.core.utils.NovaLogger;
  */
 public class Core {
 
-
-    private PluginSystem pluginSystem;
-    private NovaLogger novaLogger;
-    private NovaServer novaServer;
-    private RouteHandler routeHandler;
-
+    private final PluginSystem pluginSystem;
+    private final NovaLogger novaLogger;
+    private final NovaServer novaServer;
+    private final RouteHandler routeHandler;
 
     public Core() {
         this(new NovaLogger());
@@ -50,10 +48,26 @@ public class Core {
     public Core(NovaLogger novaLogger) {
         this.pluginSystem = new PluginSystem(novaLogger);
 
-        this.routeHandler = new RouteHandler(novaLogger, new Route(""));
+        this.routeHandler = new RouteHandler(novaLogger, new Route(""), new Route("web"));
         this.novaLogger = novaLogger;
 
         this.novaServer = new NovaServer(novaLogger);
         this.novaServer.start();
+    }
+
+    public PluginSystem getPluginSystem() {
+        return pluginSystem;
+    }
+
+    public NovaLogger getNovaLogger() {
+        return novaLogger;
+    }
+
+    public NovaServer getNovaServer() {
+        return novaServer;
+    }
+
+    public RouteHandler getRouteHandler() {
+        return routeHandler;
     }
 }

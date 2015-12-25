@@ -29,7 +29,7 @@ import java.io.*;
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
-public final class ClassFileBuffer implements DataInput {
+final class ClassFileBuffer implements DataInput {
 
     private byte[] buffer;
     private int size; // the number of significant bytes read
@@ -49,7 +49,7 @@ public final class ClassFileBuffer implements DataInput {
      * extra overhead. So in good initial capacity is important in performance critical
      * situations.
      */
-    ClassFileBuffer(final int initialCapacity) {
+    private ClassFileBuffer(final int initialCapacity) {
         if (initialCapacity < 1) {
             throw new IllegalArgumentException("initialCapacity < 1: " + initialCapacity);
         }
@@ -78,7 +78,7 @@ public final class ClassFileBuffer implements DataInput {
      * Sets the file-pointer offset, measured from the beginning of this file,
      * at which the next read or write occurs.
      */
-    public void seek(final int position) throws IOException {
+    private void seek(final int position) throws IOException {
         if (position < 0) {
             throw new IllegalArgumentException("position < 0: " + position);
         }

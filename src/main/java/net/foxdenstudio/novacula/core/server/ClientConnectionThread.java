@@ -35,20 +35,16 @@ import java.util.Date;
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
-public class ClientConnectionThread implements Runnable {
+class ClientConnectionThread implements Runnable {
 
     private final Socket socket;
     private final String serverName;
-    private final int nbRead;
-    private final byte[] buffer;
     private final NovaLogger novaLogger;
 
     private String fileMimeType = "text/html";
 
     public ClientConnectionThread(NovaLogger novaLogger, Socket clientSocket, String serverName) {
         this.novaLogger = novaLogger;
-        nbRead = 0;
-        buffer = new byte[1024];
 
         this.socket = clientSocket;
         this.serverName = serverName;
@@ -80,56 +76,38 @@ public class ClientConnectionThread implements Runnable {
     private static class QuickAccess {
 
         static void Error404(OutputStream outputStream, String serverName) throws IOException {
-            outputStream.write("HTTP/1.1 404 Not Found\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write(("Date: " + new Date().toString() + "\r\n").getBytes());
-            outputStream.flush();
-            outputStream.write("Server: NovaServer1.5r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("Accept-Ranges: bytes\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write(("Content-Type: text/html\r\n").getBytes());
-            outputStream.flush();
-            outputStream.write("\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<html>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<Title>404 File Not Found</Title>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<body style='background-color: #2A3132;'>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<div align='center'><center>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<div style='width: 60%;padding: 7px;background-color: #763626;'>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<p align='center'><font color='#FFFFFF' size='6'><strong>404 File Not Found</strong></font></p>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("<p><font color='#FFFFFF' size='4'>The Web Server cannot find the requested file or script.  Please check the URL to be sure that it is correct.</font></p>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write(("<p><font color='#FFFFFF' size='4'>If the problem persists, please contact the webmaster at " + StartupArgs.MAILTO + "</font></p>\r\n").getBytes());
-            outputStream.flush();
-            outputStream.write("</div>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("</center></div>\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write(("</html>" + "\r\n").getBytes());
+            String make = "";
+            make += "HTTP/1.1 404 Not Found\r\n";
+            make += "Date: " + new Date().toString() + "\r\n";
+            make += "Server: NovaServer1.5r\n";
+            make += "Accept-Ranges: bytes\r\n";
+            make += ("Content-Type: text/html\r\n");
+            make += "\r\n";
+            make += "<html>\r\n";
+            make += "<Title>404 File Not Found</Title>\r\n";
+            make += "<body style='background-color: #2A3132;'>\r\n";
+            make += "<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>\r\n";
+            make += "<div align='center'><center>\r\n";
+            make += "<div style='width: 60%;padding: 7px;background-color: #763626;'>\r\n";
+            make += "<p align='center'><font color='#FFFFFF' size='6'><strong>404 File Not Found</strong></font></p>\r\n";
+            make += "<p><font color='#FFFFFF' size='4'>The Web Server cannot find the requested file or script.  Please check the URL to be sure that it is correct.</font></p>\r\n";
+            make += "<p><font color='#FFFFFF' size='4'>If the problem persists, please contact the webmaster at " + StartupArgs.MAILTO + "</font></p>\r\n";
+            make += "</div>\r\n";
+            make += "</center></div>\r\n";
+            make += "</html>" + "\r\n";
+            outputStream.write(make.getBytes());
             outputStream.flush();
         }
 
         public static void Success200(OutputStream outputStream, String fileMimeType) throws IOException {
-            outputStream.write("HTTP/1.1 200 OK\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write(("Date: " + new Date().toString() + "\r\n").getBytes());
-            outputStream.flush();
-            outputStream.write("Server: NovaServer1.5r\n".getBytes());
-            outputStream.flush();
-            outputStream.write("Accept-Ranges: bytes\r\n".getBytes());
-            outputStream.flush();
-            outputStream.write(("Content-Type: " + fileMimeType + "\r\n").getBytes());
-            outputStream.flush();
-            outputStream.write("\r\n".getBytes());
+            String make = "";
+            make += "HTTP/1.1 200 OK\r\n";
+            make += "Date: " + new Date().toString() + "\r\n";
+            make += "Server: NovaServer1.5r\n";
+            make += "Accept-Ranges: bytes\r\n";
+            make += "Content-Type: " + fileMimeType + "\r\n";
+            make += "\r\n";
+            outputStream.write(make.getBytes());
             outputStream.flush();
         }
     }

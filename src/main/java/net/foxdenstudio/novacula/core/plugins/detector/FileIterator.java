@@ -35,7 +35,7 @@ import java.util.NoSuchElementException;
  */
 final class FileIterator {
 
-    private final Deque<File> stack = new LinkedList<File>();
+    private final Deque<File> stack = new LinkedList<>();
     private int rootCount;
     private File current;
 
@@ -81,7 +81,7 @@ final class FileIterator {
      *
      * @see #getFile()
      */
-    public File next() throws IOException {
+    public File next() {
         if (stack.isEmpty()) {
             current = null;
             return null;

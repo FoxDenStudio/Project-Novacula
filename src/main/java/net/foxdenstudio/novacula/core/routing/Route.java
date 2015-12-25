@@ -28,7 +28,7 @@ package net.foxdenstudio.novacula.core.routing;
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
 public class Route {
-    private Path path;
+    private final Path path;
 
     public Route(String s) {
         path = new Path(s);

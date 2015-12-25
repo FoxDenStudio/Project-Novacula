@@ -46,14 +46,16 @@ public class NovaLogger {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
-    private ArrayList<String> log;
-    private Calendar time;
-    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-    private String prefix, suffix, cleanupCode = ANSI_RESET;
+    private final ArrayList<String> log;
+    private final Calendar time;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    private final String prefix;
+    private final String suffix;
+    private final String cleanupCode = ANSI_RESET;
 
-    private final String ERROR = ANSI_RED + "NOVA ERROR: " + ANSI_RESET;
-    private final String ERROR_SUFFIX = "!!";
-    private final String CLEAR_LOG = ANSI_CYAN + "Log has been cleared!" + ANSI_RESET;
+    private static final String ERROR = ANSI_RED + "NOVA ERROR: " + ANSI_RESET;
+    private static final String ERROR_SUFFIX = "!!";
+    private static final String CLEAR_LOG = ANSI_CYAN + "Log has been cleared!" + ANSI_RESET;
 
     public NovaLogger() {
         this(new ArrayList<>(), ANSI_PURPLE + "[Nova Web Server] " + ANSI_RESET, "");

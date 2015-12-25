@@ -84,17 +84,17 @@ public class HTTPHeaderParser {
             {"505", "HTTP Version Not Supported"}
     };
 
-    private BufferedReader reader;
+    private final BufferedReader reader;
     private String method, url;
-    private Hashtable headers, params;
-    private int[] ver;
+    private Hashtable<String, String> headers, params;
+    private final int[] ver;
 
     public HTTPHeaderParser(InputStream is) {
         reader = new BufferedReader(new InputStreamReader(is));
         method = "";
         url = "";
-        headers = new Hashtable();
-        params = new Hashtable();
+        headers = new Hashtable<>();
+        params = new Hashtable<>();
         ver = new int[2];
     }
 
@@ -134,7 +134,7 @@ public class HTTPHeaderParser {
                 url = URLDecoder.decode(cmd[1].substring(0, idx), "ISO-8859-1");
                 prms = cmd[1].substring(idx + 1).split("&");
 
-                params = new Hashtable();
+                params = new Hashtable<>();
                 for (i = 0; i < prms.length; i++) {
                     temp = prms[i].split("=");
                     if (temp.length == 2) {
@@ -196,7 +196,7 @@ public class HTTPHeaderParser {
 
     public String getHeader(String key) {
         if (headers != null)
-            return (String) headers.get(key.toLowerCase());
+            return headers.get(key.toLowerCase());
         else return null;
     }
 
@@ -209,7 +209,7 @@ public class HTTPHeaderParser {
     }
 
     public String getParam(String key) {
-        return (String) params.get(key);
+        return params.get(key);
     }
 
     public Hashtable getParams() {

@@ -149,10 +149,10 @@ public final class ADetect {
     public ADetect(final Reporter reporter) {
 
         final Class<? extends Annotation>[] a = reporter.annotations();
-        annotations = new HashMap<String, Class<? extends Annotation>>(a.length);
+        annotations = new HashMap<>(a.length);
         // map "raw" type names to Class object
-        for (int i = 0; i < a.length; ++i) {
-            annotations.put("L" + a[i].getName().replace('.', '/') + ";", a[i]);
+        for (Class<? extends Annotation> anA : a) {
+            annotations.put("L" + anA.getName().replace('.', '/') + ";", anA);
         }
         if (reporter instanceof TypeReporter) {
             typeReporter = (TypeReporter) reporter;
@@ -191,7 +191,7 @@ public final class ADetect {
                 pkgNameFilter[i] = pkgNameFilter[i].concat("/");
             }
         }
-        final Set<File> files = new HashSet<File>();
+        final Set<File> files = new HashSet<>();
         for (final String packageName : pkgNameFilter) {
             final ClassLoader loader = Thread.currentThread().getContextClassLoader();
             final Enumeration<URL> resourceEnum = loader.getResources(packageName);

@@ -30,21 +30,11 @@ import java.io.File;
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
 public class StartupArgs {
-    public static int BASE_SERVER_PORT = 8004;
-    public static String BASE_DIR = System.getProperty("user.home", "") + File.separator + ".ProjectNovaculaData";
-    public static boolean LOAD_PLUGINS = true;
-    public static boolean CASE_SENSITIVE_PATHS = false;
-    public static String SERVER_NAME = "ProjectNovaculaTest";
-    public static String SERVER_BASE_DIR = BASE_DIR + File.separator + "ServerData";
-    public static String MAILTO = "npjoshf@gmail.com";
-
-
-    public static void parseArgs(String[] args) {
-        for (String s : args) {
-            System.out.println("Parsing startup arg: " + s);
-        }
-
-        if (!new File(BASE_DIR).exists())
-            new File(BASE_DIR).mkdirs();
-    }
+    public static final int BASE_SERVER_PORT = 8004;
+    public static final String BASE_DIR = System.getProperty("user.home", "") + File.separator + ".ProjectNovaculaData";
+    public static final boolean LOAD_PLUGINS = true;
+    public static final boolean CASE_SENSITIVE_PATHS = false;
+    public static final String SERVER_NAME = "ProjectNovaculaTest";
+    public static final String SERVER_BASE_DIR = BASE_DIR + File.separator + "ServerData";
+    public static final String MAILTO = "npjoshf@gmail.com";
 }

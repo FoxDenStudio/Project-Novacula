@@ -68,7 +68,7 @@ public class NovaServer {
 
         if (serverSocket != null) {
             while (isRunning()) {
-                Socket clientSocket = null;
+                Socket clientSocket;
                 try {
                     clientSocket = this.serverSocket.accept();
                 } catch (IOException e) {
@@ -79,7 +79,7 @@ public class NovaServer {
                     throw new RuntimeException("Error accepting client connection", e);
                 }
                 new Thread(
-                        new ClientConnectionThread(novaLogger, clientSocket, "Multithreaded Server")
+                        new ClientConnectionThread(novaLogger, clientSocket, StartupArgs.SERVER_NAME)
                 ).start();
             }
         }
