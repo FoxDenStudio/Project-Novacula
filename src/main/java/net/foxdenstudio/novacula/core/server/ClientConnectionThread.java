@@ -61,15 +61,6 @@ class ClientConnectionThread implements Runnable {
             long time = System.currentTimeMillis();
 
             HTTPHeaderParser headerParser = new HTTPHeaderParser(inputStream);
-            novaLogger.log("P1: " + headerParser.parseRequest());
-            novaLogger.log("P2: " + headerParser.getVersion());
-            novaLogger.log("P3: " + headerParser.getRequestURL());
-            novaLogger.log("P4: " + headerParser.getMethod());
-            novaLogger.log("P5: " + headerParser.getParams());
-            novaLogger.log("P6: " + headerParser.getHeaders());
-
-//            QuickAccess.Success200(outputStream, fileMimeType);
-//            QuickAccess.Error404(outputStream, serverName);
 
             PluginSystem.callEvent(new ServerRequestEvent(outputStream, headerParser));
 

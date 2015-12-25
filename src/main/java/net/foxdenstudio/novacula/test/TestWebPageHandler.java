@@ -43,5 +43,4 @@ public class TestWebPageHandler {
     public IWebServiceResponse index(IWebServiceRequest request) {
         return "<h1>Hi There</h1>"::getBytes;
     }
-
 }

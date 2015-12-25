@@ -47,7 +47,7 @@ public class NovaLogger {
     public static final String ANSI_WHITE = "\u001B[37m";
 
     private final ArrayList<String> log;
-    private final Calendar time;
+    private Calendar time;
     private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private final String prefix;
     private final String suffix;
@@ -94,6 +94,7 @@ public class NovaLogger {
     }
 
     public void log(Object message) {
+        this.time = Calendar.getInstance();
         if (message != null) {
             String msg = "[" + sdf.format(this.time.getTime()) + "] " + prefix + message.toString() + suffix + cleanupCode;
             log.add(msg);
@@ -102,6 +103,7 @@ public class NovaLogger {
     }
 
     public void logQuiet(String message) {
+        this.time = Calendar.getInstance();
         if (message != null) {
             String msg = message + cleanupCode;
             log.add(msg);
@@ -110,6 +112,7 @@ public class NovaLogger {
     }
 
     public void logError(String message) {
+        this.time = Calendar.getInstance();
         if (message != null) {
             String msg = "[" + sdf.format(this.time.getTime()) + "] " + ERROR + message + ERROR_SUFFIX + cleanupCode;
             log.add(msg);
