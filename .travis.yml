@@ -11,3 +11,13 @@ script: gradle build
 
 before_deploy:
   - rvm 1.9.3 do gem install mime-types -v 2.6.2
+  - for f in "./build/libs/ProjectNovacula-Core*SNAPSHOT.jar"; do mv ${f} "./build/libs/ProjectNovacula-Core-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}-SNAPSHOT.jar"; done
+
+deploy:
+  file_glob: true
+  provider: releases
+  api-key: ${KEY}
+  file: "./build/libs/ProjectNovacula-Core*.jar"
+  skip_cleanup: true
+  on:
+    tags: true
