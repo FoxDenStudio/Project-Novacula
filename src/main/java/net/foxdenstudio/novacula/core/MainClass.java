@@ -29,7 +29,6 @@ package net.foxdenstudio.novacula.core;
  */
 public class MainClass {
 
-
     public static void main(String[] args) {
         new Core();
     }
