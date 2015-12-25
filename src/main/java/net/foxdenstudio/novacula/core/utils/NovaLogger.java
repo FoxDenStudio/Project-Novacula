@@ -26,6 +26,10 @@ package net.foxdenstudio.novacula.core.utils;
 
 import com.google.common.reflect.ClassPath;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +53,7 @@ public class NovaLogger {
     private final ArrayList<String> log;
     private Calendar time;
     private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    private final SimpleDateFormat logSDF = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
     private final String prefix;
     private final String suffix;
     private final String cleanupCode = ANSI_RESET;
@@ -135,7 +140,26 @@ public class NovaLogger {
     }
 
     public boolean saveLog() {
-        //TODO save the log with the NovaFile.Save() method
+        this.time = Calendar.getInstance();
+        File rootLogDir = new File("logs");
+        //noinspection ResultOfMethodCallIgnored
+        rootLogDir.mkdirs();
+        File logFile = new File(rootLogDir, logSDF.format(this.time.getTime()) + ".noval");
+        try (FileOutputStream fos = new FileOutputStream(logFile); OutputStreamWriter osw = new OutputStreamWriter(fos)) {
+
+            log.forEach(s -> {
+                try {
+                    osw.write(s);
+                    osw.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
