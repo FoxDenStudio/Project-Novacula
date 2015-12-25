@@ -46,12 +46,12 @@ public class Core {
     }
 
     public Core(NovaLogger novaLogger) {
-        this.pluginSystem = new PluginSystem(novaLogger);
-
-        this.routeHandler = new RouteHandler(novaLogger, new Route(""), new Route("web"));
         this.novaLogger = novaLogger;
+        this.pluginSystem = new PluginSystem(this.novaLogger);
 
-        this.novaServer = new NovaServer(novaLogger);
+        this.routeHandler = new RouteHandler(this.novaLogger, new Route(""), new Route("web"));
+
+        this.novaServer = new NovaServer(this.novaLogger);
         this.novaServer.start();
     }
 
