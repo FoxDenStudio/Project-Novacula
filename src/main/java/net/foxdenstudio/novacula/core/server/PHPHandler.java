@@ -26,6 +26,11 @@ package net.foxdenstudio.novacula.core.server;
 
 import net.foxdenstudio.novacula.core.StartupArgs;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/24/15.
  */
@@ -37,5 +42,37 @@ public class PHPHandler {
             if (filename.substring(extPos + 1).equalsIgnoreCase(allowedPHPExt)) return true;
         }
         return false;
+    }
+
+    public static boolean isCGIFile(String filename) {
+        int extPos = filename.lastIndexOf('.');
+        for (String allowedCGIExt : StartupArgs.CGI_EXTENSIONS.split(";")) {
+            if (filename.substring(extPos + 1).equalsIgnoreCase(allowedCGIExt)) return true;
+        }
+        return false;
+    }
+
+    public static void processFile(String file, OutputStream outputStream) throws IOException {
+        Runtime runtime = Runtime.getRuntime();
+        Process process = null;
+
+        if (isPHPFile(file)) {
+            process = runtime.exec(StartupArgs.PHP_EXEC.trim() + " " + file);
+        } else if (isCGIFile(file)) {
+            process = runtime.exec(file);
+        }
+
+        if (process != null) {
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    outputStream.write((line + "\r\n").getBytes());
+                    outputStream.flush();
+                }
+            }
+
+            process.destroy();
+        }
+
     }
 }

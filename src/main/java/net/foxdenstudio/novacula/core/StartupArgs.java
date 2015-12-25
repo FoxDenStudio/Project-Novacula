@@ -38,4 +38,6 @@ public class StartupArgs {
     public static final String SERVER_BASE_DIR = BASE_DIR + File.separator + "ServerData";
     public static final String MAILTO = "npjoshf@gmail.com";
     public static final String PHP_EXTENSIONS = "php;php5;phtml;nova";
+    public static final String CGI_EXTENSIONS = "exe;novax";
+    public static final String PHP_EXEC = "PATH TO PHP";
 }
