@@ -40,6 +40,7 @@ import java.util.Date;
 class ClientConnectionThread implements Runnable {
 
     private final Socket socket;
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private final String serverName;
     private final NovaLogger novaLogger;
 
@@ -96,11 +97,11 @@ class ClientConnectionThread implements Runnable {
             outputStream.flush();
         }
 
-        public static void Success200(OutputStream outputStream, String fileMimeType) throws IOException {
+        public static void Success200(OutputStream outputStream, String fileMimeType, String serverName) throws IOException {
             String make = "";
             make += "HTTP/1.1 200 OK\r\n";
             make += "Date: " + new Date().toString() + "\r\n";
-            make += "Server: NovaServer1.5r\n";
+            make += "Server: " + serverName + "\r\n";
             make += "Accept-Ranges: bytes\r\n";
             make += "Content-Type: " + fileMimeType + "\r\n";
             make += "\r\n";
