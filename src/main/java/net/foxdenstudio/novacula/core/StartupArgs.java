@@ -40,6 +40,6 @@ public class StartupArgs {
     public static final String PHP_EXTENSIONS = "php;php5;phtml;nova";
     public static final String CGI_EXTENSIONS = "exe;novax";
     public static final String PHP_EXEC = "PATH TO PHP";
-    public static final int LOG_LEVEL = 2;
+    public static final int LOG_LEVEL = 5;
 }
 
