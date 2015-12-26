@@ -36,6 +36,9 @@ public class OutreachServer {
 
     }
 
+    public static ConcurrentHashMap<String, ArrayList<Object>> getData() {
+        return dataList;
+    }
     public static ArrayList<Object> getData(String key) {
         return dataList.getOrDefault(key, new ArrayList<>());
     }

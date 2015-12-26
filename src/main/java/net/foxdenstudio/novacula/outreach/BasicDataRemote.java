@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class BasicDataRemote extends UnicastRemoteObject implements IBasicData {
 
     protected BasicDataRemote() throws RemoteException {
+        super(0);
     }
 
     @Override

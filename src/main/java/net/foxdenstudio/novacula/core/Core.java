@@ -57,7 +57,7 @@ public class Core {
             @Override
             public void run() {
                 novaLogger.saveLog();
-                OutreachServer.getData("anno").forEach(System.err::println);
+                OutreachServer.getData().forEach((s, objects) -> novaLogger.log(s + " :: " + objects));
             }
         });
 
