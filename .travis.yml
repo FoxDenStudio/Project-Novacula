@@ -9,6 +9,9 @@ jdk:
 env: GRADLE_OPTS="-Xms1g -Xmx3g"
 script: gradle build
 
+notifications:
+  email: false
+
 before_deploy:
   - rvm 1.9.3 do gem install mime-types -v 2.6.2
   - for f in "./build/libs/ProjectNovacula-Core*SNAPSHOT.jar"; do mv ${f} "./build/libs/ProjectNovacula-Core-${TRAVIS_TAG}-${TRAVIS_BUILD_NUMBER}-SNAPSHOT.jar"; done
