@@ -1,1 +1,1 @@
-# Project-Novacula [![Build Status](https://travis-ci.org/FoxDenStudio/Project-Novacula-Core.svg)](https://travis-ci.org/FoxDenStudio/Project-Novacula-Core)
+# Project-Novacula [![Build Status](https://travis-ci.org/FoxDenStudio/ProjectNovacula-Core.svg)](https://travis-ci.org/FoxDenStudio/ProjectNovacula-Core)
