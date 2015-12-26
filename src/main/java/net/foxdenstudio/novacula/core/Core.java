@@ -30,6 +30,10 @@ import net.foxdenstudio.novacula.core.routing.RouteHandler;
 import net.foxdenstudio.novacula.core.server.NovaServer;
 import net.foxdenstudio.novacula.core.utils.NovaInfo;
 import net.foxdenstudio.novacula.core.utils.NovaLogger;
+import net.foxdenstudio.novacula.outreach.OutreachServer;
+
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
@@ -40,6 +44,7 @@ public class Core {
     private final NovaLogger novaLogger;
     private final NovaServer novaServer;
     private final RouteHandler routeHandler;
+    private OutreachServer outreachServer = null;
 
     public Core() {
         this(new NovaLogger());
@@ -47,7 +52,24 @@ public class Core {
 
     public Core(NovaLogger novaLogger) {
         this.novaLogger = novaLogger;
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                novaLogger.saveLog();
+                OutreachServer.getData().forEach((s, objects) -> novaLogger.log(s + " :: " + objects));
+            }
+        });
+
+        try {
+            this.outreachServer = new OutreachServer(this.novaLogger);
+            outreachServer.startServer();
+        } catch (RemoteException | MalformedURLException e) {
+            e.printStackTrace();
+        }
+
         this.pluginSystem = new PluginSystem(this.novaLogger);
+
 
         this.routeHandler = new RouteHandler(this.novaLogger, new Route(""), new Route("web"));
 
