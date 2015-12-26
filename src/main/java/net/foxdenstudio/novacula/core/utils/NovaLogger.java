@@ -24,6 +24,8 @@
 
 package net.foxdenstudio.novacula.core.utils;
 
+import net.foxdenstudio.novacula.core.StartupArgs;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +37,7 @@ import java.util.Calendar;
 /**
  * Created by d4rkfly3r (Joshua F.) on 12/23/15.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"PointlessBooleanExpression", "ConstantConditions", "unused"})
 public class NovaLogger {
 
     public static final String ANSI_RESET = "\u001B[0m";
@@ -59,6 +61,8 @@ public class NovaLogger {
     private static final String ERROR = ANSI_RED + "NOVA ERROR: " + ANSI_RESET;
     private static final String ERROR_SUFFIX = "!!";
     private static final String CLEAR_LOG = ANSI_CYAN + "Log has been cleared!" + ANSI_RESET;
+
+    private static final int logLevel = StartupArgs.LOG_LEVEL; // 0 -> most details 10 -> least details
 
     public NovaLogger() {
         this(new ArrayList<>(), ANSI_PURPLE + "[Nova Web Server] " + ANSI_RESET, "");
@@ -94,6 +98,33 @@ public class NovaLogger {
 
     public String getSuffix() {
         return suffix;
+    }
+
+    public void debug(Object message) {
+        this.time = Calendar.getInstance();
+        if (message != null && logLevel < 5) {
+            String msg = "DEBUG [" + sdf.format(this.time.getTime()) + "] " + prefix + message.toString() + suffix + cleanupCode;
+            log.add(msg.replaceAll("(\\[[0-99]+m)", "") + "\n");
+            System.out.println(msg);
+        }
+    }
+
+    public void debugQuiet(String message) {
+        this.time = Calendar.getInstance();
+        if (message != null && logLevel < 5) {
+            String msg = message + cleanupCode;
+            log.add(msg.replaceAll("(\\[[0-99]+m)", "") + "\n");
+            System.out.println(msg);
+        }
+    }
+
+    public void debugError(String message) {
+        this.time = Calendar.getInstance();
+        if (message != null && logLevel < 5) {
+            String msg = "DEBUG [" + sdf.format(this.time.getTime()) + "] " + ERROR + message + ERROR_SUFFIX + cleanupCode;
+            log.add(msg.replaceAll("(\\[[0-99]+m)", "") + "\n");
+            System.out.println(ANSI_RED + msg);
+        }
     }
 
     public void log(Object message) {
