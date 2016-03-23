@@ -91,22 +91,6 @@ public class PluginSystem {
         }.start();
     }
 
-    private void register0(Class<?> aClass) {
-        novaLogger.log("In Register0");
-        synchronized (registeredListeners) {
-            novaLogger.log("Syncd List");
-            if (!registeredListeners.containsKey(aClass)) {
-                try {
-                    Object instance = aClass.newInstance();
-                    registeredListeners.put(aClass, instance);
-                    callEventSpecClass0(aClass, instance, new LoadEvent(registeredListeners.keySet()));
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     private static void callEventSpecClass0(Class<?> aClass, Object instance, final Event event) {
         callMethodsForClass0(aClass, instance, event);
     }
@@ -128,12 +112,29 @@ public class PluginSystem {
                         try {
                             method.invoke(instance, event);
                         } catch (Exception ex) {
+                            ex.printStackTrace();
                             novaLogger.logError("ERROR: " + ex.getMessage());
                         }
                     }
                 }
             }
         });
+    }
+
+    private void register0(Class<?> aClass) {
+        novaLogger.log("In Register0");
+        synchronized (registeredListeners) {
+            novaLogger.log("Syncd List");
+            if (!registeredListeners.containsKey(aClass)) {
+                try {
+                    Object instance = aClass.newInstance();
+                    registeredListeners.put(aClass, instance);
+                    callEventSpecClass0(aClass, instance, new LoadEvent(registeredListeners.keySet()));
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }
